@@ -134,7 +134,7 @@ All sections`[autotune_tmc]`They accept the following configurable parameters:
 | `motor`            | _Mandatory_   | [Ver DB](motor_database.cfg)               | Name of the database engine. Defines physical characteristics such as resistance, inductance and torque                                                                                                                                  |
 | `tuning_goal`      | `auto`        | `auto`,`silent`,`performance`,`autoswitch` | OPERATING OPERATION MODE:<br>-`auto`: Automatic selection based on axis type<br>-`silent`: Prioritize silence over performance<br>-`performance`: Maximum speed and torque<br>-`autoswitch`: Dynamic change between modes (experimental) |
 | `extra_hysteresis` | 0             | 0-8                                        | Additional hysteresis to reduce vibration. Values> 3 can generate excessive heat                                                                                                                                                         |
-| `tbl`              | 2             | 0-3                                        | Comparator's Blanking Time:<br>- 0: 16 ciclos<br>- 1: 24 cycles<br>- 2: 36 cycles<br>- 3: 54 cycles                                                                                                                                      |
+| `tbl`              | 2             | 0-3                                        | Comparator's Blanking Time:<br>- 0: 16 cycles<br>- 1: 24 cycles<br>- 2: 36 cycles<br>- 3: 54 cycles                                                                                                                                      |
 | `toff`             | 0             | 0-15                                       | Chopper's off time. 0 = automatic calculation. Low values ​​improve high speeds                                                                                                                                                          |
 | `sgt`              | 1             | -64 a 63                                   | Homing sensitivity without sensors (TMC5160/2240). Negative values ​​= greater sensitivity                                                                                                                                               |
 | `sg4_thrs`         | 10            | 0-255                                      | Combined threshold for Coolstep and Homing (TMC2209). Non -linear relationship with real sensitivity                                                                                                                                     |
@@ -173,7 +173,7 @@ The autojuste process uses the following main classes:
 
 2.  **RealTimeMonitor**: Provides real time monitoring of the temperature and load of the engine, with dynamic adjustment of the current and automatic thermal protection.
 
-3.  **AutoTunetmc**: Main class that integrates the above functionalities and applies the optimal configuration to TMC drivers.
+3.  **AutotuneTMC**: Main class that integrates the above functionalities and applies the optimal configuration to TMC drivers.
 
 The improved autojuste algorithm now includes:
 
