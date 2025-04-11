@@ -146,7 +146,7 @@ Toutes les sections`[autotune_tmc]`Ils acceptent les paramètres configurables s
 >
 > -   Les paramètres sans unité supposent des valeurs dans le système métrique international (V, A, Hz)
 > -   Les valeurs de`sgt`et`sg4_thrs`Ils ont des effets non linéaires: les petits changements peuvent avoir de grands impacts
-> -   `tuning_goal`Il affecte simultanément plusieurs paramètres:
+> -   `tuning_goal` afecta múltiples parámetros simultáneamente:
 >     ```plaintext
 >     silent:   toff↑, tbl↑, pwm_freq↓, extra_hysteresis↑
 >     performance: toff↓, tbl↓, pwm_freq↑, extra_hysteresis↓
@@ -218,6 +218,6 @@ Gardez à l'esprit que les moteurs à vis sans fin n'ont souvent pas de couple p
 
 ## Éliminez cette extension Klipper
 
-Commentez toutes les sections`[autotune_tmc xxxx]`Depuis sa configuration et le redémarrage, Klipper désactivera complètement le plugin. Vous pouvez donc l'activer / le désactiver comme vous le souhaitez.
+Commentez toutes les sections`[autotune_tmc xxxx]` de su configuración y reiniciar Klipper desactivará completamente el plugin. Así que puede habilitarlo/deshabilitarlo como desee.
 
 Si vous souhaitez le désinstaller complètement, éliminez la section de mise à jour de Moonraker à partir de votre fichier`moonraker.conf`, supprimez le dossier`~/klipper_tmc_autotune`Sur son Pi et redémarrez Klipper et Moonraker.
