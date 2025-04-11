@@ -178,6 +178,63 @@ class TuningGoal(str, Enum):
     PERFORMANCE = "performance"
 
 
+class ConfigValidator:
+    """Validador de configuración para drivers TMC y steppers en Klipper"""
+
+    def __init__(self, config):
+        self.config = config
+
+    def validate_tmc_interpolation(self):
+        warnings = []
+        for section_name in self.config.get_prefix_sections('tmc'):
+            section = self.config.getsection(section_name)
+            
+            # Usar sistema de validación de parámetros de Klipper
+            interpolate = section.getboolean('interpolate', False,
+                note="La interpolación mejora la suavidad del movimiento")
+            
+            if not interpolate:
+                # Usar notificación nativa de Klipper
+                self.config.error(
+                    "Se requiere interpolación para TMC Autotune\n"
+                    "Sección: %s\n"
+                    "Solución: Agregar 'interpolate: True'\n"
+                    "Documentación: https://www.klipper3d.org/TMC_Drivers.html" % section_name,
+                    section=section_name)
+        return warnings
+
+    def validate_stepper_ratios(self):
+        warnings = []
+        for section_name in self.config.get_prefix_sections('stepper'):
+            section = self.config.getsection(section_name)
+            
+            # Validación con parámetros de Klipper y manejo de unidades
+            homing_speed = section.getfloat('homing_speed', minval=0.1,
+                note="La velocidad de homing debe ser mayor que la distancia de rotación")
+            rotation_dist = section.getfloat('rotation_distance', above=0,
+                note="La distancia de rotación debe ser positiva")
+            
+            if homing_speed <= rotation_dist:
+                # Usar sistema de sugerencias de Klipper
+                min_speed = self.config.float(rotation_dist * 1.2,
+                    note="Velocidad mínima recomendada basada en distancia de rotación")
+                section.error(
+                    "Relación velocidad/distancia de rotación crítica\n"
+                    "Sección: %s\n"
+                    "Velocidad actual: %.1f\n"
+                    "Mínimo recomendado: %.1f" %
+                    (section_name, homing_speed, min_speed))
+        return warnings
+
+    def run_checks(self):
+        tmc_warnings = self.validate_tmc_interpolation()
+        stepper_warnings = self.validate_stepper_ratios()
+        
+        # Usar sistema de error de configuración de Klipper
+        if tmc_warnings or stepper_warnings:
+            self.config.error("Problemas de configuración detectados",
+                notes=["Revise las secciones mencionadas para optimizar el rendimiento TMC"])
+
 class RealTimeMonitor:
     """Monitorización en tiempo real y ajuste dinámico para drivers TMC.
     
@@ -601,6 +658,7 @@ class AutotuneTMC:
         self.motor = config.get('motor')
         self.motor_name = f"motor_constants {self.motor}"
         self.tmc_utils = None  # Se inicializará después de cargar el objeto motor
+        ConfigValidator(config).run_checks()
         
         # Load motor database
         pconfig = self.printer.lookup_object('configfile')
