@@ -17,7 +17,7 @@ In particolare, StealthChop attivo per impostazione predefinita nei motori e neg
 -   Supporto ufficiale per TMC2209, TMC2240 e TMC5160.
 -   Il supporto per TMC2130, TMC2208 e TMC2660 può funzionare, ma non è stato testato.
 -   L'homing senza sensori con autotuning attivato funziona correttamente in TMC2209, TMC2240 e TMC5160, a condizione che la velocità di homing sia abbastanza rapida (Homing_Speed ​​deve essere numericamente più grande di rotazione_distanza per quegli assi che usano homing senza sensor). Come sempre, fai molta attenzione quando provi l'homing senza sensori per la prima volta.
--   L'uso dell'autotuning del motore può migliorare l'efficienza consentendo loro di lavorare più freddo e consumare meno energia. Tuttavia, è importante tenere presente che questo processo può anche far funzionare i conducenti TMC più caldi, quindi devono essere implementate misure di raffreddamento appropriate.
+-   El uso de autotuning para los motores puede mejorar la eficiencia permitiendo que funcionen más fríos y consuman menos energía. Sin embargo, es importante tener en cuenta que este proceso también puede hacer que los drivers TMC funcionen más calientes, por lo que se deben implementar medidas de refrigeración adecuadas.
 -   Sistema di protezione termica dinamica che regola la corrente in tempo reale in base alla temperatura del conducente e al carico del motore
 -   Monitoraggio avanzato con campionamento ogni 100 ms, incluso il rilevamento del sovraccarico e aumenta di temperatura improvvisa
 -   Algoritmo di raffreddamento preventivo che riduce gradualmente la corrente prima di raggiungere i limiti critici
@@ -72,7 +72,7 @@ Tieni anche presente che l'adeguamento di homing senza sensori probabilmente cam
 -   **Soluzione:**
     -   Aumento`sgt`In 2-3 unità (TMC5160/2240)
     -   Ridurre`sg4_thrs`In 10-15 unità (TMC2209)
-    -   Verificar que `homing_speed > rotation_distance`
+    -   Verifica che`homing_speed > rotation_distance`
 
 ### 2. Configurazione ottimale della velocità
 
