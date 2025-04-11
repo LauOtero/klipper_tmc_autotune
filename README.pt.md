@@ -104,7 +104,7 @@ Lembre -se também de que o ajuste do homing sem sensores provavelmente mudará 
 
 ## Configuração autotune
 
-Adicione o seguinte ao seu`printer.cfg` (cambie los nombres de motores y elimine o agregue secciones según sea necesario) para habilitar el autotuning para sus drivers TMC y motores, y reinicie Klipper:
+Adicione o seguinte ao seu`printer.cfg`(Altere os nomes dos motores e remova ou adicione seções conforme necessário) para ativar o automobilismo para seus drivers e motores do TMC e reinicie o Klipper:
 
 ```ini
 [autotune_tmc stepper_x]
@@ -127,7 +127,7 @@ motor: ldo-36sth20-1004ahg
 
 ## Parâmetros de seção[autotune_tmc]
 
-Todas as seções`[autotune_tmc]`Eles aceitam os seguintes parâmetros configuráveis:
+Todas as seções`[autotune_tmc]` aceptan los siguientes parámetros configurables:
 
 | Parâmetro          | Valor por defecto | Faixa                                      | Descrição detalhada                                                                                                                                                                                                                                       |
 | ------------------ | ----------------- | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
