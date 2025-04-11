@@ -1,5 +1,11 @@
 # Klipper TMC AutoTune (version alpha)
 
+* * *
+
+![Español](https://flagcdn.com/w40/es.png)[![English](https://flagcdn.com/w40/gb.png)](README.en.md)[![Deutsch](https://flagcdn.com/w40/de.png)](README.de.md)[![Italiano](https://flagcdn.com/w40/it.png)](README.it.md)[![Français](https://flagcdn.com/w40/fr.png)](README.fr.md)[![Português](https://flagcdn.com/w40/pt.png)](README.pt.md)
+
+* * *
+
 Extension Klipper pour la configuration et le réglage du TMC automatique.
 
 Cette extension calcule des valeurs optimales pour la plupart des enregistrements des pilotes TMC des moteurs à pas de pas, en fonction des informations sur la fiche d'information et de la cible de réglage sélectionnée par l'utilisateur.
@@ -54,7 +60,7 @@ Vérifiez les diagrammes des broches des plaques de vos pilotes: les plaques BTT
 
 AutoTune peut être utilisé avec des remplacements de renverser pour le retour sans capteurs. Cependant, vous devez ajuster les valeurs`sg4_thrs`(TMC2209, TMC2260) O / O`sgt`(TMC5160, TMC2240, TMC2130, TMC2660) spécifiquement dans les sections automatique. Essayer ces modifications via GCODE ou dans les sections TMC du pilote ne générera pas de message d'erreur, mais il n'aura pas d'effet car l'algorithme de mise à jour les écrasera.
 
-Gardez également à l'esprit que le réglage du retour sans capteurs changera probablement en raison d'autres ajustements. En particulier, AutoTune peut nécessiter des vitesses de renverser plus rapides pour fonctionner; Prendre le`rotation_distance`du moteur comme une vitesse minimale qui peut fonctionner, et s'il est difficile à régler, accélérez le retour plus rapidement. Le retour sans capteurs devient beaucoup plus sensible aux vitesses plus élevées.
+Gardez également à l'esprit que le réglage des homing sans capteurs changera probablement en raison d'autres ajustements. En particulier, AutoTune peut nécessiter des vitesses de renverser plus rapides pour fonctionner; Prendre le`rotation_distance`du moteur comme une vitesse minimale qui peut fonctionner, et s'il est difficile à régler, accélérez le retour plus rapidement. Le retour sans capteurs devient beaucoup plus sensible aux vitesses plus élevées.
 
 ## Solution de problème commun
 
@@ -163,7 +169,7 @@ Le processus automatique utilise les principales classes suivantes:
     -   Hystérésis optimale basé sur le courant et l'objectif d'ajustement
     -   Seuils PWM pour le changement automatique entre les moyens
     -   Valeurs de protection contre la surtension
-    -   Corriente de funcionamiento óptima
+    -   Courant de fonctionnement optimal
 
 2.  **RealTimemonitor**: Fournit une surveillance en temps réel de la température et de la charge du moteur, avec un réglage dynamique de la protection thermique actuelle et automatique.
 
