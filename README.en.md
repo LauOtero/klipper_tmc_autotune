@@ -70,7 +70,7 @@ Also keep in mind that the homing adjustment without sensors will probably chang
 
 ### 2. Optimal speed configuration
 
-**Problem:** Pérdida de pasos durante el homing
+**Problem:**Loss of steps during the homing
 
 -   **Causes:**Too low speed for current configuration
 -   **Solution:**
@@ -199,7 +199,7 @@ max_current: 0.00           # Corriente nominal, Amperios
 steps_per_revolution: 200   # Pasos por revolución (motores de 1.8° usan 200, de 0.9° usan 400)
 ```
 
-Internally, the class`MotorConstants` utiliza estos valores para calcular parámetros derivados como:
+Internally, the class`MotorConstants`Use these values ​​to calculate derived parameters such as:
 
 -   Contralectromotriz Force constant (CBEMF)
 -   Motor time constant (l/r)

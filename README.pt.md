@@ -12,7 +12,7 @@ Em particular, o StoralthChop ativo por padrão nos motores Z e extrusores, Cool
 -   O suporte para TMC2130, TMC2208 e TMC2660 pode funcionar, mas não foi testado.
 -   O Homing sem sensores com autotutação ativada funciona corretamente no TMC2209, TMC2240 e TMC5160, desde que a velocidade de retorno seja rápida o suficiente (Homing_speed deve ser numericamente maior que a Rotation_distância para aqueles eixos que usam a casa sem sensores). Como sempre, tenha muito cuidado ao tentar o Homing sem sensores pela primeira vez.
 -   O uso do automóvel motor pode melhorar a eficiência, permitindo que eles trabalhem mais frios e consumam menos energia. No entanto, é importante ter em mente que esse processo também pode fazer com que os drivers do TMC funcionem mais quentes; portanto, as medidas de resfriamento apropriadas devem ser implementadas.
--   Sistema de protección térmica dinámica que ajusta la corriente en tiempo real basado en la temperatura del driver y la carga del motor
+-   Sistema dinâmico de proteção térmica que ajusta a corrente em tempo real com base na temperatura do motorista e na carga do motor
 -   Monitoramento avançado com amostragem a cada 100ms, incluindo detecção de sobrecarga e aumento repentino de temperatura
 -   Algoritmo de resfriamento preventivo que reduz gradualmente a corrente antes de atingir os limites críticos
 
@@ -41,7 +41,7 @@ install_script: install.sh
 
 As configurações de seus motoristas devem conter:
 
--   Pines
+-   Pinheiros
 -   Correntes (corrente operacional, corrente de retenção, corrente de homing se você usar uma versão Klipper que a suporta)
 -   `interpolate: true`
 -   Discuta qualquer outro ajuste de registro e valores de homing sem sensores (mantenha -os como referência, mas eles não estarão ativos)
@@ -98,7 +98,7 @@ Lembre -se também de que o ajuste do homing sem sensores provavelmente mudará 
 
 ## Configuração autotune
 
-Agregue lo siguiente a su `printer.cfg`(Altere os nomes dos motores e remova ou adicione seções conforme necessário) para ativar o automobilismo para seus drivers e motores do TMC e reinicie o Klipper:
+Adicione o seguinte ao seu`printer.cfg`(Altere os nomes dos motores e remova ou adicione seções conforme necessário) para ativar o automobilismo para seus drivers e motores do TMC e reinicie o Klipper:
 
 ```ini
 [autotune_tmc stepper_x]
@@ -140,7 +140,7 @@ Todas as seções`[autotune_tmc]`Eles aceitam os seguintes parâmetros configur�
 >
 > -   Parámetros sin unidad asumen valores en el sistema métrico internacional (V, A, Hz)
 > -   Os valores de`sgt`e`sg4_thrs`Eles têm efeitos não lineares: pequenas mudanças podem ter grandes impactos
-> -   `tuning_goal` afecta múltiples parámetros simultáneamente:
+> -   `tuning_goal`Afeta vários parâmetros simultaneamente:
 >     ```plaintext
 >     silent:   toff↑, tbl↑, pwm_freq↓, extra_hysteresis↑
 >     performance: toff↓, tbl↓, pwm_freq↑, extra_hysteresis↓
@@ -188,7 +188,7 @@ Os parâmetros são otimizados especificamente para cada tipo de driver TMC, lev
 
 ## Motores definidos pelo usuário
 
-Os nomes dos motores e suas constantes físicas estão no arquivo[motor_database.cfg](motor_database.cfg), que es cargado automáticamente por el script. Si un motor no está listado, puede agregar su definición en su propio archivo de configuración `printer.cfg`Adicionando esta seção (os PRs também são bem -vindos a outros motores). Você pode encontrar essas informações em suas folhas de dados, mas preste muita atenção às unidades!
+Os nomes dos motores e suas constantes físicas estão no arquivo[motor_database.cfg](motor_database.cfg), que é carregado automaticamente pelo script. Se um mecanismo não estiver listado, você poderá adicionar sua definição em seu próprio arquivo de configuração`printer.cfg`Adicionando esta seção (os PRs também são bem -vindos a outros motores). Você pode encontrar essas informações em suas folhas de dados, mas preste muita atenção às unidades!
 
 ```ini
 [motor_constants mi_motor_personalizado]

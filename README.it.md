@@ -10,7 +10,7 @@ In particolare, StealthChop attivo per impostazione predefinita nei motori e neg
 
 -   Supporto ufficiale per TMC2209, TMC2240 e TMC5160.
 -   Il supporto per TMC2130, TMC2208 e TMC2660 può funzionare, ma non è stato testato.
--   El homing sin sensores con autotuning activado funciona correctamente en TMC2209, TMC2240 y TMC5160, siempre que la velocidad de homing sea suficientemente rápida (homing_speed debe ser numéricamente mayor que rotation_distance para esos ejes que usan homing sin sensores). Como siempre, tenga mucho cuidado al probar el homing sin sensores por primera vez.
+-   L'homing senza sensori con autotuning attivato funziona correttamente in TMC2209, TMC2240 e TMC5160, a condizione che la velocità di homing sia abbastanza rapida (Homing_Speed ​​deve essere numericamente più grande di rotazione_distanza per quegli assi che usano homing senza sensor). Come sempre, fai molta attenzione quando provi l'homing senza sensori per la prima volta.
 -   L'uso dell'autotuning del motore può migliorare l'efficienza consentendo loro di lavorare più freddo e consumare meno energia. Tuttavia, è importante tenere presente che questo processo può anche far funzionare i conducenti TMC più caldi, quindi devono essere implementate misure di raffreddamento appropriate.
 -   Sistema di protezione termica dinamica che regola la corrente in tempo reale in base alla temperatura del conducente e al carico del motore
 -   Monitoraggio avanzato con campionamento ogni 100 ms, incluso il rilevamento del sovraccarico e aumenta di temperatura improvvisa
@@ -139,7 +139,7 @@ Tutte le sezioni`[autotune_tmc]`Accettano i seguenti parametri configurabili:
 > **Note importanti:**
 >
 > -   I parametri senza unità assumono valori nel sistema metrico internazionale (V, A, HZ)
-> -   I valori di`sgt`E`sg4_thrs`Hanno effetti non lineari: piccoli cambiamenti possono avere grandi impatti
+> -   I valori di`sgt`E`sg4_thrs` tienen efectos no lineales: pequeños cambios pueden tener grandes impactos
 > -   `tuning_goal`Colpisce contemporaneamente più parametri:
 >     ```plaintext
 >     silent:   toff↑, tbl↑, pwm_freq↓, extra_hysteresis↑
@@ -159,7 +159,7 @@ Inoltre, se necessario, è possibile regolare tutto al volo mentre la stampante 
 
 Il processo automatico utilizza le seguenti classi principali:
 
-1.  **Tmcutilities**: Fornisce funzioni di calcolo e ottimizzazione per configurare i driver TMC in base alle caratteristiche fisiche del motore. Calcola parametri come:
+1.  **TMCUtilities**: Fornisce funzioni di calcolo e ottimizzazione per configurare i driver TMC in base alle caratteristiche fisiche del motore. Calcola parametri come:
     -   Isteresi ottimale in base alla corrente e all'obiettivo di regolazione
     -   Soglie di PWM per il cambiamento automatico tra i modi
     -   Valori di protezione da sovratensione

@@ -39,7 +39,7 @@ install_script: install.sh
 
 ## Bestehende Konfigurationsanpassung
 
-Las configuraciones de sus drivers deben contener:
+Die Konfigurationen ihrer Treiber müssen enthalten:
 
 -   Kiefern
 -   Ströme (Betriebsstrom, Aufbewahrungsstrom, Homing -Strom, wenn Sie eine Klipper -Version verwenden, die sie unterstützt)
@@ -163,7 +163,7 @@ Der Autojust -Prozess verwendet die folgenden Hauptklassen:
     -   Optimale Hysterese basierend auf dem Strom und dem Anpassungsziel
     -   PWM -Schwellenwerte für automatische Veränderungen zwischen Wegen
     -   Überspannungsschutzwerte
-    -   Corriente de funcionamiento óptima
+    -   Optimaler Betriebsstrom
 
 2.  **Realtimemonitor**: Bietet eine Echtzeitüberwachung der Temperatur und Last des Motors mit dynamischer Einstellung des Strom- und automatischen thermischen Schutzes.
 
