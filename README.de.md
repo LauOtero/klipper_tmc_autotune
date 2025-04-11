@@ -58,7 +58,7 @@ Die Dokumentation von Klipper empfiehlt, die Interpolation nicht zu verwenden. D
 
 ## Homing ohne Sensoren
 
-Autotune kann zusammen mit Homing -Overrides für Homing ohne Sensoren verwendet werden. Sie müssen jedoch die Werte anpassen`sg4_thrs`(TMC2209, TMC2260) y/o`sgt`(TMC5160, TMC2240, TMC2130, TMC2660) speziell in den Autotune -Abschnitten. Wenn Sie diese Änderungen über GCODE oder in den Treiber -TMC -Abschnitten ausprobieren, wird keine Fehlermeldung erzeugt, die jedoch keinen Effekt hat, da der Autotuning -Algorithmus sie überschreibt.
+Autotune kann zusammen mit Homing -Overrides für Homing ohne Sensoren verwendet werden. Sie müssen jedoch die Werte anpassen`sg4_thrs` (TMC2209, TMC2260) y/o `sgt`(TMC5160, TMC2240, TMC2130, TMC2660) speziell in den Autotune -Abschnitten. Wenn Sie diese Änderungen über GCODE oder in den Treiber -TMC -Abschnitten ausprobieren, wird keine Fehlermeldung erzeugt, die jedoch keinen Effekt hat, da der Autotuning -Algorithmus sie überschreibt.
 
 Beachten Sie auch, dass sich die Einstellung der Homing ohne Sensoren aufgrund anderer Anpassungen wahrscheinlich ändern wird. Insbesondere kann Autotune möglicherweise schnellere Homing -Geschwindigkeiten erfordern, um zu funktionieren. Nimm das`rotation_distance`des Motors als Mindestgeschwindigkeit, die funktionieren kann, und wenn es schwierig ist, sich anzupassen, machen Sie die Homing schneller. Homing ohne Sensoren wird viel empfindlicher gegenüber höheren Geschwindigkeiten.
 
@@ -129,7 +129,7 @@ motor: ldo-36sth20-1004ahg
 
 Alle Abschnitte`[autotune_tmc]`Sie akzeptieren die folgenden konfigurierbaren Parameter:
 
-| Parámetro          | Standardwert    | Reichweite                                 | Detaillierte Beschreibung                                                                                                                                                                                                                                                     |
+| Parameter          | Standardwert    | Reichweite                                 | Detaillierte Beschreibung                                                                                                                                                                                                                                                     |
 | ------------------ | --------------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `motor`            | _Obligatorisch_ | [Ver db](motor_database.cfg)               | Name der Datenbankmotor. Definiert physikalische Eigenschaften wie Widerstand, Induktivität und Drehmoment                                                                                                                                                                    |
 | `tuning_goal`      | `auto`          | `auto`,`silent`,`performance`,`autoswitch` | Betriebsbetriebsmodus:<br>-`auto`: Automatische Auswahl basierend auf Achsenart<br>-`silent`: Priorisieren Sie die Stille über die Leistung<br>-`performance`: Maximale Geschwindigkeit und Drehmoment<br>-`autoswitch`: Dynamische Veränderung zwischen Modi (experimentell) |
