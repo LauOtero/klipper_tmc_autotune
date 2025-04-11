@@ -2,7 +2,7 @@
 
 * * *
 
-![Español](https://flagcdn.com/w40/es.png)[![English](https://flagcdn.com/w40/gb.png)](README.en.md)[![Deutsch](https://flagcdn.com/w40/de.png)](README.de.md)[![Italiano](https://flagcdn.com/w40/it.png)](README.it.md)[![Français](https://flagcdn.com/w40/fr.png)](README.fr.md)[![Português](https://flagcdn.com/w40/pt.png)](README.pt.md)
+[![Español](https://flagcdn.com/w40/es.png)](README.md)[![English](https://flagcdn.com/w40/gb.png)](README.en.md)[![Deutsch](https://flagcdn.com/w40/de.png)](README.de.md)[![Italiano](https://flagcdn.com/w40/it.png)](README.it.md)[![Français](https://flagcdn.com/w40/fr.png)](README.fr.md)[![Português](https://flagcdn.com/w40/pt.png)](README.pt.md)
 
 * * *
 
@@ -58,7 +58,7 @@ Controlla i diagrammi dei pin delle piastre dei driver: le piastre BTT TMC 2240 
 
 ## Homing senza sensori
 
-Autotune può essere utilizzato insieme a Homing Slorarrids per Homing senza sensori. Tuttavia, è necessario regolare i valori`sg4_thrs`(TMC2209, TMC2260) Y/O.`sgt` (TMC5160, TMC2240, TMC2130, TMC2660) específicamente en las secciones de autotune. Intentar hacer estos cambios via gcode o en las secciones del driver tmc no generará un mensaje de error, pero no tendrá efecto ya que el algoritmo de autotuning los sobrescribirá.
+Autotune può essere utilizzato insieme a Homing Slorarrids per Homing senza sensori. Tuttavia, è necessario regolare i valori`sg4_thrs`(TMC2209, TMC2260) Y/O.`sgt`(TMC5160, TMC2240, TMC2130, TMC2660) specificamente nelle sezioni Autotune. Provare queste modifiche tramite GCode o nelle sezioni TMC del driver non genererà un messaggio di errore, ma non avrà un effetto poiché l'algoritmo di autotuning le sovrascriverà.
 
 Tieni anche presente che l'adeguamento di homing senza sensori probabilmente cambierà a causa di altre regolazioni. In particolare, l'autotune può richiedere una velocità di homing più rapide per funzionare; Prendere il`rotation_distance`del motore come una velocità minima che può funzionare e, se è difficile da regolare, rendere più veloce l'honing. L'homing senza sensori diventa molto più sensibile alle velocità più elevate.
 
@@ -72,7 +72,7 @@ Tieni anche presente che l'adeguamento di homing senza sensori probabilmente cam
 -   **Soluzione:**
     -   Aumento`sgt`In 2-3 unità (TMC5160/2240)
     -   Ridurre`sg4_thrs`In 10-15 unità (TMC2209)
-    -   Verifica che`homing_speed > rotation_distance`
+    -   Verificar que `homing_speed > rotation_distance`
 
 ### 2. Configurazione ottimale della velocità
 
@@ -129,18 +129,18 @@ motor: ldo-36sth20-1004ahg
 
 Tutte le sezioni`[autotune_tmc]`Accettano i seguenti parametri configurabili:
 
-| Parametro          | Valore predefinito | Rango                                      | Descrizione dettagliata                                                                                                                                                                                                                                              |
-| ------------------ | ------------------ | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `motor`            | _Obbligatorio_     | [Ver db](motor_database.cfg)               | Nome del motore del database. Definisce caratteristiche fisiche come resistenza, induttanza e coppia                                                                                                                                                                 |
-| `tuning_goal`      | `auto`             | `auto`,`silent`,`performance`,`autoswitch` | Modo de operación objetivo:<br>-`auto`: Selezione automatica in base al tipo di asse<br>-`silent`: Priorità al silenzio rispetto alle prestazioni<br>-`performance`: Velocità massima e coppia<br>-`autoswitch`: Cambiamento dinamico tra le modalità (sperimentale) |
-| `extra_hysteresis` | 0                  | 0-8                                        | Ulteriore isteresi per ridurre le vibrazioni. Valori> 3 possono generare calore eccessivo                                                                                                                                                                            |
-| `tbl`              | 2                  | 0-3                                        | Tempo di blanking del comparatore:<br>- 0: 16 cicli<br>- 1: 24 cicli<br>- 2: 36 cicli<br>- 3: 54 cicli                                                                                                                                                               |
-| `toff`             | 0                  | 0-15                                       | Chopper è il tempo libero. 0 = calcolo automatico. Valori bassi migliorano le alte velocità                                                                                                                                                                          |
-| `sgt`              | 1                  | -64 a 63                                   | Sensibilità di homing senza sensori (TMC5160/2240). Valori negativi = maggiore sensibilità                                                                                                                                                                           |
-| `sg4_thrs`         | 10                 | 0-255                                      | Soglia combinata per coolstep e homing (TMC2209). Relazione non lineare con la vera sensibilità                                                                                                                                                                      |
-| `pwm_freq_target`  | 55kHz              | 10-60kHz                                   | Obiettivo di frequenza PWM. Valori alti riducono il rumore ma aumentano le perdite                                                                                                                                                                                   |
-| `voltage`          | 24 V.              | 0-60v                                      | Vera tensione di alimentazione del motore. Critico per i calcoli attuali                                                                                                                                                                                             |
-| `overvoltage_vth`  | _Auto_             | 0-60v                                      | Protezione di palenza SOOL (TMC2240/5160). È calcolato come`voltage + 0.8V`Se non specificato                                                                                                                                                                        |
+| Parametro          | Valore predefinito | Rango                                      | Descrizione dettagliata                                                                                                                                                                                                                                                |
+| ------------------ | ------------------ | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `motor`            | _Obbligatorio_     | [Ver db](motor_database.cfg)               | Nome del motore del database. Definisce caratteristiche fisiche come resistenza, induttanza e coppia                                                                                                                                                                   |
+| `tuning_goal`      | `auto`             | `auto`,`silent`,`performance`,`autoswitch` | Modalità operativa operativa:<br>-`auto`: Selezione automatica in base al tipo di asse<br>-`silent`: Priorità al silenzio rispetto alle prestazioni<br>-`performance`: Velocità massima e coppia<br>-`autoswitch`: Cambiamento dinamico tra le modalità (sperimentale) |
+| `extra_hysteresis` | 0                  | 0-8                                        | Ulteriore isteresi per ridurre le vibrazioni. Valori> 3 possono generare calore eccessivo                                                                                                                                                                              |
+| `tbl`              | 2                  | 0-3                                        | Tempo di blanking del comparatore:<br>- 0: 16 cicli<br>- 1: 24 cicli<br>- 2: 36 cicli<br>- 3: 54 cicli                                                                                                                                                                 |
+| `toff`             | 0                  | 0-15                                       | Chopper è il tempo libero. 0 = calcolo automatico. Valori bassi migliorano le alte velocità                                                                                                                                                                            |
+| `sgt`              | 1                  | -64 a 63                                   | Sensibilità di homing senza sensori (TMC5160/2240). Valori negativi = maggiore sensibilità                                                                                                                                                                             |
+| `sg4_thrs`         | 10                 | 0-255                                      | Soglia combinata per coolstep e homing (TMC2209). Relazione non lineare con la vera sensibilità                                                                                                                                                                        |
+| `pwm_freq_target`  | 55kHz              | 10-60kHz                                   | Obiettivo di frequenza PWM. Valori alti riducono il rumore ma aumentano le perdite                                                                                                                                                                                     |
+| `voltage`          | 24 V.              | 0-60v                                      | Vera tensione di alimentazione del motore. Critico per i calcoli attuali                                                                                                                                                                                               |
+| `overvoltage_vth`  | _Auto_             | 0-60v                                      | Protezione di palenza SOOL (TMC2240/5160). È calcolato come`voltage + 0.8V`Se non specificato                                                                                                                                                                          |
 
 > **Note importanti:**
 >
@@ -171,7 +171,7 @@ Il processo automatico utilizza le seguenti classi principali:
     -   Valori di protezione da sovratensione
     -   Corrente operativa ottimale
 
-2.  **Realtimemonitor**: Proporciona monitoreo en tiempo real de la temperatura y carga del motor, con ajuste dinámico de la corriente y protección térmica automática.
+2.  **Realtimemonitor**: Fornisce il monitoraggio in tempo reale della temperatura e del carico del motore, con regolazione dinamica della protezione termica corrente e automatica.
 
 3.  **Autotunetmc**: Classe principale che integra le funzionalità di cui sopra e applica la configurazione ottimale ai driver TMC.
 
@@ -205,7 +205,7 @@ max_current: 0.00           # Corriente nominal, Amperios
 steps_per_revolution: 200   # Pasos por revolución (motores de 1.8° usan 200, de 0.9° usan 400)
 ```
 
-Internamente, la clase `MotorConstants`Usa questi valori per calcolare i parametri derivati ​​come:
+Internamente, la classe`MotorConstants`Usa questi valori per calcolare i parametri derivati ​​come:
 
 -   Contralectromotriz Force costante (CBEMF)
 -   Costante del tempo motore (L/R)

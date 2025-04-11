@@ -2,7 +2,7 @@
 
 * * *
 
-![Español](https://flagcdn.com/w40/es.png)[![English](https://flagcdn.com/w40/gb.png)](README.en.md)[![Deutsch](https://flagcdn.com/w40/de.png)](README.de.md)[![Italiano](https://flagcdn.com/w40/it.png)](README.it.md)[![Français](https://flagcdn.com/w40/fr.png)](README.fr.md)[![Português](https://flagcdn.com/w40/pt.png)](README.pt.md)
+[![Español](https://flagcdn.com/w40/es.png)](README.md)[![English](https://flagcdn.com/w40/gb.png)](README.en.md)[![Deutsch](https://flagcdn.com/w40/de.png)](README.de.md)[![Italiano](https://flagcdn.com/w40/it.png)](README.it.md)[![Français](https://flagcdn.com/w40/fr.png)](README.fr.md)[![Português](https://flagcdn.com/w40/pt.png)](README.pt.md)
 
 * * *
 
@@ -134,7 +134,7 @@ All sections`[autotune_tmc]`They accept the following configurable parameters:
 | `motor`            | _Mandatory_   | [Ver DB](motor_database.cfg)               | Name of the database engine. Defines physical characteristics such as resistance, inductance and torque                                                                                                                                  |
 | `tuning_goal`      | `auto`        | `auto`,`silent`,`performance`,`autoswitch` | OPERATING OPERATION MODE:<br>-`auto`: Automatic selection based on axis type<br>-`silent`: Prioritize silence over performance<br>-`performance`: Maximum speed and torque<br>-`autoswitch`: Dynamic change between modes (experimental) |
 | `extra_hysteresis` | 0             | 0-8                                        | Additional hysteresis to reduce vibration. Values> 3 can generate excessive heat                                                                                                                                                         |
-| `tbl`              | 2             | 0-3                                        | Comparator's Blanking Time:<br>- 0: 16 cycles<br>- 1: 24 cycles<br>- 2: 36 cycles<br>- 3: 54 cycles                                                                                                                                      |
+| `tbl`              | 2             | 0-3                                        | Comparator's Blanking Time:<br>- 0: 16 ciclos<br>- 1: 24 cycles<br>- 2: 36 cycles<br>- 3: 54 cycles                                                                                                                                      |
 | `toff`             | 0             | 0-15                                       | Chopper's off time. 0 = automatic calculation. Low values ​​improve high speeds                                                                                                                                                          |
 | `sgt`              | 1             | -64 a 63                                   | Homing sensitivity without sensors (TMC5160/2240). Negative values ​​= greater sensitivity                                                                                                                                               |
 | `sg4_thrs`         | 10            | 0-255                                      | Combined threshold for Coolstep and Homing (TMC2209). Non -linear relationship with real sensitivity                                                                                                                                     |
@@ -145,7 +145,7 @@ All sections`[autotune_tmc]`They accept the following configurable parameters:
 > **IMPORTANT NOTES:**
 >
 > -   Parameters without unity assume values ​​in the international metric system (V, A, Hz)
-> -   Los valores de `sgt`y`sg4_thrs`They have non -linear effects: small changes can have great impacts
+> -   The values ​​of`sgt`y`sg4_thrs`They have non -linear effects: small changes can have great impacts
 > -   `tuning_goal`It affects multiple parameters simultaneously:
 >     ```plaintext
 >     silent:   toff↑, tbl↑, pwm_freq↓, extra_hysteresis↑
