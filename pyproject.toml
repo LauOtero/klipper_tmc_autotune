@@ -1,0 +1,69 @@
+[tool.basedpyright]
+typeCheckingMode = "basic"
+extraPaths = [
+    "../../SOURCES/klipper/klippy/extras",
+    "../../SOURCES/klipper/klippy",
+    "../../SOURCES/moonraker/moonraker/components",
+    "../../SOURCES/moonraker/moonraker",
+]
+pythonPath = "python"
+pythonVersion = "3.7"
+pythonPlatform = "Linux"
+reportMissingImports = true
+reportMissingTypeStubs = false
+
+[tool.pylint.messages_control]
+disable = [
+    # Mantener comentados los que quieres que estén habilitados
+    #"C0111",  # Mantener habilitado para requerir docstrings
+    #"C0103",  # Mantener habilitado para validar nombres
+    #"C0301",  # Mantener habilitado para control de longitud de línea
+    # Descomentar los que quieres deshabilitar
+    "C0302",  # Deshabilita advertencias por módulos demasiado largos
+    "C0303",  # Deshabilita advertencias por espacios en blanco al final de la línea
+    "C0304",  # Deshabilita advertencias por falta de nueva línea al final del archivo
+    "C0305",  # Deshabilita advertencias por demasiadas líneas en blanco
+    "W0611",  # Deshabilita advertencias por importaciones no utilizadas
+    "W0612",  # Deshabilita advertencias por variables no utilizadas
+    "R0902",  # Deshabilita advertencias por demasiados atributos en una clase
+    "R0913",  # Deshabilita advertencias por demasiados argumentos
+    "R0914",  # Deshabilita advertencias por demasiadas variables locales
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py37']
+include = '\.pyi?$'
+
+[build-system]
+requires = ["setuptools>=42.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "klipper_tmc_autotune"
+version = "1.0.0"
+description = "TMC driver autotuning plugin for Klipper"
+authors = [
+    {name = "Andrew McGreggor", email = "andrew@andrewmcgr.com"}
+]
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "GPL-3.0-or-later"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "klipper",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "pylint",
+    "basedpyright",
+]
+
+[tool.setuptools]
+py_modules = ["autotune_tmc", "motor_constants"]

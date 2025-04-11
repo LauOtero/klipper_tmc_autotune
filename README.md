@@ -1,61 +1,105 @@
 # Klipper TMC Autotune
 
-Klipper extension for automatic configuration and tuning of TMC drivers.
+Extensión de Klipper para la configuración y ajuste automático de drivers TMC.
 
-This extension calculates good values for most registers of TMC stepper motor drivers, given the motor's datasheet information and user selected tuning goal.
+Esta extensión calcula valores óptimos para la mayoría de los registros de los drivers TMC de motores paso a paso, basándose en la información de la hoja de datos del motor y el objetivo de ajuste seleccionado por el usuario.
 
-In particular, it enables StealthChop by default on Z motors and extruders, CoolStep where possible, and correctly switches to full step operation at very high speeds. Where multiple modes are possible, it should select the lowest power and quietest modes available, subject to the constraints of sensorless homing (which does not allow certain combinations).
+En particular, activa StealthChop por defecto en los motores Z y extrusores, CoolStep donde sea posible, y cambia correctamente al modo de paso completo a velocidades muy altas. Cuando hay múltiples modos disponibles, selecciona los modos más silenciosos y de menor consumo de energía, sujeto a las limitaciones del homing sin sensores (que no permite ciertas combinaciones).
 
+### Estado actual
 
-### Current status
+- Soporte oficial para TMC2209, TMC2240 y TMC5160.
+- Soporte para TMC2130, TMC2208 y TMC2660 puede funcionar, pero no ha sido probado.
+- El homing sin sensores con autotuning activado funciona correctamente en TMC2209, TMC2240 y TMC5160, siempre que la velocidad de homing sea suficientemente rápida (homing_speed debe ser numéricamente mayor que rotation_distance para esos ejes que usan homing sin sensores). Como siempre, tenga mucho cuidado al probar el homing sin sensores por primera vez.
+- El uso de autotuning para los motores puede mejorar la eficiencia permitiendo que funcionen más fríos y consuman menos energía. Sin embargo, es importante tener en cuenta que este proceso también puede hacer que los drivers TMC funcionen más calientes, por lo que se deben implementar medidas de refrigeración adecuadas.
+- Sistema de protección térmica dinámica que ajusta la corriente en tiempo real basado en la temperatura del driver y la carga del motor
+- Monitoreo avanzado con muestreo cada 100ms, incluyendo detección de sobrecargas y subidas bruscas de temperatura
+- Algoritmo de enfriamiento preventivo que reduce gradualmente la corriente antes de alcanzar límites críticos
 
-- Official support for TMC2209, TMC2240, and TMC5160.
-- Support for TMC2130, TMC2208 and TMC2660 may work, but is completely untested.
-- Sensorless homing with autotuning enabled is known to work on TMC2209, TMC2240 and TMC5160, provided you home fast enough (homing_speed should be numerically greater than rotation_distance for those axes using sensorless homing). As always, be very careful when trying sensorless homing for the first time.
-- Using autotuning for your motors can improve efficiency by allowing them to run cooler and consume less power. However, it's important to note that this process can also cause the TMC drivers to run hotter, so proper cooling measures must be implemented.
+## Instalación
 
-
-## Installation
-
-To install this plugin, run the installation script using the following command over SSH. This script will download this GitHub repository to your RaspberryPi home directory, and symlink the files in the Klipper extra folder.
+Para instalar este plugin, ejecute el script de instalación usando el siguiente comando por SSH. Este script descargará este repositorio de GitHub al directorio home de su RaspberryPi y creará enlaces simbólicos de los archivos en la carpeta extra de Klipper.
 
 ```bash
-wget -O - https://raw.githubusercontent.com/andrewmcgr/klipper_tmc_autotune/main/install.sh | bash
+wget -O - https://github.com/LauOtero/klipper_tmc_autotune/main/install.sh | bash
 ```
 
-Then, add the following to your `moonraker.conf` to enable automatic updates:
+Luego, agregue lo siguiente a su `moonraker.conf` para habilitar actualizaciones automáticas:
+
 ```ini
 [update_manager klipper_tmc_autotune]
 type: git_repo
 channel: dev
 path: ~/klipper_tmc_autotune
-origin: https://github.com/andrewmcgr/klipper_tmc_autotune.git
+origin: https://github.com/LauOtero/klipper_tmc_autotune.git
 managed_services: klipper
 primary_branch: main
 install_script: install.sh
 ```
 
-## Adjusting existing configuration
+## Ajuste de configuración existente
 
-Your driver configurations should contain:
-* Pins
-* Currents (run current, hold current, homing current if using a Klipper version that supports the latter)
-* `interpolate: true`
-* Comment out any other register settings and sensorless homing values (keep them for reference, but they will not be active)
+Las configuraciones de sus drivers deben contener:
 
-The Klipper documentation recommends not using interpolation. However, that is most applicable if using low microstep counts, and using the default driver configuration. Autotune gives better results, both dimensionally and quality, by using interpolation and as many microsteps as feasible.
+- Pines
+- Corrientes (corriente de funcionamiento, corriente de retención, corriente de homing si usa una versión de Klipper que lo soporte)
+- `interpolate: true`
+- Comente cualquier otro ajuste de registro y valores de homing sin sensores (manténgalos como referencia, pero no estarán activos)
 
-Check the pinouts of your stepper driver boards: BTT TMC 2240 boards require configuring `diag1_pin` not `diag0_pin`, but MKS TMC 2240 stepsticks require `diag0_pin` and *not* `diag1_pin`. There may be other unusual drivers.
+La documentación de Klipper recomienda no usar interpolación. Sin embargo, esto es más aplicable si se usan conteos de micropasos bajos y la configuración predeterminada del driver. Autotune da mejores resultados, tanto dimensionales como de calidad, usando interpolación y tantos micropasos como sea posible.
 
-## Sensorless homing
+Verifique los diagramas de pines de sus placas de drivers: las placas BTT TMC 2240 requieren configurar `diag1_pin` y no `diag0_pin`, pero los stepsticks MKS TMC 2240 requieren `diag0_pin` y *no* `diag1_pin`. Puede haber otros drivers con configuraciones inusuales.
 
-Autotune can be used together with homing overrides for sensorless homing. However, you must adjust the `sg4_thrs` (TMC2209, TMC2260) and/or `sgt` (TMC5160, TMC2240, TMC2130, TMC2660) values specifically in the autotune sections. Attempting to make these changes via gcode or via the tmc driver sections will not result in an error message, but will have no effect since the autotuning algorithm will simply override them.
+## Homing sin sensores
 
-Also note that the sensorless homing tuning will most likely change due to the other settings. In particular, autotune may require faster homing speeds to work; take the `rotation_distance` of the stepper as a minimum speed that can work, and if it is hard to tune home faster. Sensorless homing becomes much more sensitive at higher speeds.
+Autotune puede usarse junto con homing overrides para homing sin sensores. Sin embargo, debe ajustar los valores `sg4_thrs` (TMC2209, TMC2260) y/o `sgt` (TMC5160, TMC2240, TMC2130, TMC2660) específicamente en las secciones de autotune. Intentar hacer estos cambios via gcode o en las secciones del driver tmc no generará un mensaje de error, pero no tendrá efecto ya que el algoritmo de autotuning los sobrescribirá.
 
-## Autotune configuration
+También tenga en cuenta que el ajuste del homing sin sensores probablemente cambiará debido a otros ajustes. En particular, autotune puede requerir velocidades de homing más rápidas para funcionar; tome el `rotation_distance` del motor como velocidad mínima que puede funcionar, y si es difícil de ajustar, haga homing más rápido. El homing sin sensores se vuelve mucho más sensible a velocidades más altas.
 
-Add the following to your `printer.cfg` (change motor names and remove or add any sections as needed) to enable the autotuning for your TMC drivers and motors and restart Klipper:
+## Solución de Problemas Comunes
+
+### 1. Ajuste fino de sensibilidad
+
+**Problema:** El cabezal se detiene demasiado pronto o no detecta el final de carrera.
+
+- **Causas:** Valores de `sgt`/`sg4_thrs` demasiado bajos, inductancia del motor variable
+- **Solución:**
+  - Aumentar `sgt` en 2-3 unidades (TMC5160/2240)
+  - Reducir `sg4_thrs` en 10-15 unidades (TMC2209)
+  - Verificar que `homing_speed > rotation_distance`
+
+### 2. Configuración óptima de velocidad
+
+**Problema:** Pérdida de pasos durante el homing
+
+- **Causas:** Velocidad demasiado baja para la configuración actual
+- **Solución:**
+  - Calcular velocidad mínima: `homing_speed = rotation_distance * 1.2`
+  - Usar `tbl: 1` y `toff: 2` para mayor estabilidad
+
+### 3. Falsos positivos
+
+**Problema:** Detecciones erróneas durante el movimiento normal
+
+- **Causas:** Vibraciones mecánicas, corriente insuficiente
+- **Solución:**
+  - Aumentar `extra_hysteresis` en 1-2 unidades
+  - Verificar refrigeración del driver
+  - Asegurar `voltage` configurado correctamente
+
+### 4. Compatibilidad de parámetros
+
+**Importante:** Los ajustes manuales en secciones `[tmc2209]` o `[tmc5160]` serán sobrescritos.
+
+- Siempre configure:
+  - `sgt` en `[autotune_tmc]` para TMC5160/2240
+  - `sg4_thrs` en `[autotune_tmc]` para TMC2209
+  - `homing_speed` en `[stepper_x]` (y ejes correspondientes)
+
+## Configuración de Autotune
+
+Agregue lo siguiente a su `printer.cfg` (cambie los nombres de motores y elimine o agregue secciones según sea necesario) para habilitar el autotuning para sus drivers TMC y motores, y reinicie Klipper:
+
 ```ini
 [autotune_tmc stepper_x]
 motor: ldo-42sth48-2004mah
@@ -75,49 +119,95 @@ motor: ldo-42sth48-2004ac
 motor: ldo-36sth20-1004ahg
 ```
 
-All the `[autotune_tmc]` sections accept additional parameters to tweak the behavior of the autotune process for each motor:
+## Parámetros de la sección [autotune_tmc]
 
-| Parameter | Default value | Range | Description |
+Todas las secciones `[autotune_tmc]` aceptan los siguientes parámetros configurables:
+
+| Parámetro | Valor por defecto | Rango | Descripción Detallada |
 | --- | --- | --- | --- |
-| motor |  | [See DB](motor_database.cfg) | This parameter is used to retrieve the physical constants of the motor connected to the TMC driver |
-| tuning_goal | `auto` | `auto`, `silent`, `performance`, and `autoswitch` | Parameter to choose how to fine-tune the TMC driver using StealthChop and tailored parameters. By opting for `auto`, it will automatically apply `performance` for the X and Y axes and `silent` for the Z axis and extruder unless the motor is very small. `autoswitch` is an highly experimental choice that enables dynamic switching between `silent` and `performance` modes in real-time when needed. However, at the moment, this transition can potentially be troublesome, resulting in unwanted behavior, noise disturbances and lost steps. Hence, it is recommended to avoid using 'autoswitch' until its identified issues are fully addressed |
-| extra_hysteresis | 0 | 0 to 8 | Additional hysteresis to reduce motor humming and vibration at low to medium speeds and maintain proper microstep accuracy. Warning: use only as much as necessary as a too high value will result in more chopper noise and motor power dissipation (ie. more heat) |
-| tbl | 2 | 0 to 3 | Comparator blank time. This time must safely cover the TMC switching events. A value of 1 or 2 (default) should be fine for most typical applications, but higher capacitive loads may require this to be set to 3. Also, lower values allow StealthChop to regulate to lower coil current values |
-| toff | 0 | 0 to 15 | Sets the slow decay time (off time) of the chopper cycle. This setting also limits the maximum chopper frequency. When set to 0, the value is automatically computed by this autotuning algorithm. Highest motor velocities sometimes benefit from forcing `toff` to 1 or 2 and a setting a short `tbl` of 1 or 0 |
-| sgt | 1 | -64 to 63 | Sensorless homing threshold for TMC5160, TMC2240, TMC2130, TMC2660. Set value appropriately if using sensorless homing (lower value means more sensitive detection and easier stall) |
-| sg4_thrs | 10 | 0 to 255 | Sensorless homing threshold for TMC2209 and TMC2260. Set value appropriately if using sensorless homing (higher value means more sensitive detection and easier stall). This parameter is also used as the CoolStep current regulation threshold for TMC2209, TMC2240 and TMC5160. A default value of 80 is usually a good starting point for CoolStep (in the case of TMC2209, the tuned sensorless homing value will also work correctly) |
-| pwm_freq_target | 55e3 | 10e3 to 60e3 | Switching frequency target, in Hz. The code selects the highest available PWM switching frequency less than or equal to this. The default usually results in 48 kHz switching. |
-| voltage | 24 | 0.0 to 60.0 | Voltage used to power this motor and stepper driver |
-| overvoltage_vth |  | 0.0 to 60.0 | Set the optional overvoltage snubber built into the TMC2240 and TMC5160. Users of the BTT SB2240 toolhead board should use it for the extruder by reading the actual toolhead voltage and adding 0.8V |
+| `motor` | *Obligatorio* | [Ver DB](motor_database.cfg) | Nombre del motor de la base de datos. Define características físicas como resistencia, inductancia y torque |
+| `tuning_goal` | `auto` | `auto`, `silent`, `performance`, `autoswitch` | Modo de operación objetivo:<br>- `auto`: Selección automática basada en tipo de eje<br>- `silent`: Prioriza silencio sobre rendimiento<br>- `performance`: Máxima velocidad y torque<br>- `autoswitch`: Cambio dinámico entre modos (experimental) |
+| `extra_hysteresis` | 0 | 0-8 | Histeresis adicional para reducir vibración. Valores >3 pueden generar calor excesivo |
+| `tbl` | 2 | 0-3 | Tiempo de blanking del comparador:<br>- 0: 16 ciclos<br>- 1: 24 ciclos<br>- 2: 36 ciclos<br>- 3: 54 ciclos |
+| `toff` | 0 | 0-15 | Tiempo de apagado del chopper. 0 = cálculo automático. Valores bajos mejoran altas velocidades |
+| `sgt` | 1 | -64 a 63 | Sensibilidad de homing sin sensores (TMC5160/2240). Valores negativos=mayor sensibilidad |
+| `sg4_thrs` | 10 | 0-255 | Umbral combinado para CoolStep y homing (TMC2209). Relación no lineal con la sensibilidad real |
+| `pwm_freq_target` | 55kHz | 10-60kHz | Frecuencia PWM objetivo. Valores altos reducen ruido pero aumentan pérdidas |
+| `voltage` | 24V | 0-60V | Voltaje real de alimentación del motor. Crítico para cálculos de corriente |
+| `overvoltage_vth` | *Auto* | 0-60V | Umbral de protección contra sobretensión (TMC2240/5160). Se calcula como `voltage + 0.8V` si no se especifica |
 
-Also if needed, you can adjust everything on the go when the printer is running by using the `AUTOTUNE_TMC` macro in the Klipper console. All previous parameters are available:
+>**Notas importantes:**
+>- Parámetros sin unidad asumen valores en el sistema métrico internacional (V, A, Hz)
+>- Los valores de `sgt` y `sg4_thrs` tienen efectos no lineales: pequeños cambios pueden tener grandes impactos
+>- `tuning_goal` afecta múltiples parámetros simultáneamente:
+>  ```plaintext
+>  silent:   toff↑, tbl↑, pwm_freq↓, extra_hysteresis↑
+>  performance: toff↓, tbl↓, pwm_freq↑, extra_hysteresis↓
+>```
+
+Además, si es necesario, puede ajustar todo sobre la marcha mientras la impresora está funcionando usando la macro `AUTOTUNE_TMC` en la consola de Klipper. Todos los parámetros anteriores están disponibles:
+
 ```
-AUTOTUNE_TMC STEPPER=<name> [PARAMETER=<value>]
+AUTOTUNE_TMC STEPPER=<nombre> [PARÁMETRO=<valor>]
 ```
 
+## Cómo funciona el autoajuste
 
-## User-defined motors
+El proceso de autoajuste utiliza las siguientes clases principales:
 
-The motor names and their physical constants are in the [motor_database.cfg file](motor_database.cfg), which is automatically loaded by the script. If a motor is not listed, feel free to add its proper definition in your own `printer.cfg` configuration file by adding this section (PRs for other motors are also welcome). You can usually find this information in their datasheets but pay very special attention to the units!
+1. **TMCUtilities**: Proporciona funciones de cálculo y optimización para configurar los drivers TMC basándose en las características físicas del motor. Calcula parámetros como:
+   - Hysteresis óptima basada en la corriente y el objetivo de ajuste
+   - Umbrales PWM para cambio automático entre modos
+   - Valores de protección contra sobretensión
+   - Corriente de funcionamiento óptima
+
+2. **RealTimeMonitor**: Proporciona monitoreo en tiempo real de la temperatura y carga del motor, con ajuste dinámico de la corriente y protección térmica automática.
+
+3. **AutotuneTMC**: Clase principal que integra las funcionalidades anteriores y aplica la configuración óptima a los drivers TMC.
+
+El algoritmo mejorado de autoajuste ahora incluye:
+
+1. Cálculo automático de frecuencia PWM óptima basado en inductancia del motor
+2. Ajuste dinámico de hysteresis según temperatura y carga reales
+3. Optimización de transiciones entre modos de operación
+4. Protección contra oscilaciones y resonancias mecánicas
+
+El proceso completo sigue estos pasos:
+
+1. Carga las constantes físicas del motor desde la base de datos o la configuración del usuario
+2. Determina el objetivo de ajuste (silent, performance, autoswitch) basado en el tipo de motor y la configuración
+3. Calcula los parámetros óptimos para el driver TMC específico
+4. Aplica la configuración al driver y monitorea su rendimiento
+5. Ajusta dinámicamente los parámetros según sea necesario durante el funcionamiento
+
+Los parámetros se optimizan específicamente para cada tipo de driver TMC, teniendo en cuenta sus características únicas y limitaciones.
+
+## Motores definidos por el usuario
+
+Los nombres de los motores y sus constantes físicas están en el archivo [motor_database.cfg](motor_database.cfg), que es cargado automáticamente por el script. Si un motor no está listado, puede agregar su definición en su propio archivo de configuración `printer.cfg` agregando esta sección (también son bienvenidos PRs para otros motores). Puede encontrar esta información en sus hojas de datos, pero preste mucha atención a las unidades!
+
 ```ini
-[motor_constants my_custom_motor]
-# Coil resistance, Ohms
-resistance: 0.00
-# Coil inductance, Henries
-inductance: 0.00
-# Holding torque, Nm
-holding_torque: 0.00
-# Nominal rated current, Amps
-max_current: 0.00
-# Steps per revolution (1.8deg motors use 200, 0.9deg motors use 400)
-steps_per_revolution: 200
+[motor_constants mi_motor_personalizado]
+resistance: 0.00            # Ohms# Resistencia de la bobina, Ohms
+inductance: 0.00            # Inductancia de la bobina, Henries
+holding_torque: 0.00        # Torque de retención, Nm
+max_current: 0.00           # Corriente nominal, Amperios
+steps_per_revolution: 200   # Pasos por revolución (motores de 1.8° usan 200, de 0.9° usan 400)
 ```
 
-Note that lead screw motors very often do not have a published torque. Use an online calculator to estimate the torque from the lead screw thrust, for example https://www.dingsmotionusa.com/torque-calculator.
+Internamente, la clase `MotorConstants` utiliza estos valores para calcular parámetros derivados como:
 
+- Constante de fuerza contraelectromotriz (cbemf)
+- Constante de tiempo del motor (L/R)
+- Autoscaling de frecuencia PWM basado en inductancia
+- Valores óptimos de PWM considerando ruido acústico y eficiencia
+- Prevención de oscilaciones en bajas velocidades
+- Parámetros de hysteresis adaptados al motor
 
-## Removing this Klipper extension
+Tenga en cuenta que los motores de tornillo sinfín a menudo no tienen un torque publicado. Use una calculadora en línea para estimar el torque a partir del empuje del tornillo sinfín, por ejemplo <https://www.dingsmotionusa.com/torque-calculator>.
 
-Commenting out all `[autotune_tmc xxxx]` sections from your config and restarting Klipper will completely deactivate the plugin. So you can enable/disable it as you like.
+## Eliminar esta extensión de Klipper
 
-If you want to uninstall it completely, remove the moonraker update manager section from your `moonraker.conf` file, delete the `~/klipper_tmc_autotune` folder on your Pi and restart Klipper and Moonraker.
+Comentar todas las secciones `[autotune_tmc xxxx]` de su configuración y reiniciar Klipper desactivará completamente el plugin. Así que puede habilitarlo/deshabilitarlo como desee.
+
+Si quiere desinstalarlo completamente, elimine la sección del update manager de moonraker de su archivo `moonraker.conf`, borre la carpeta `~/klipper_tmc_autotune` en su Pi y reinicie Klipper y Moonraker.
