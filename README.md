@@ -1,5 +1,10 @@
 # Klipper TMC Autotune (Versión Alpha)
 
+---
+![Español](https://flagcdn.com/w40/es.png) [![English](https://flagcdn.com/w40/gb.png)](README.en.md) [![Deutsch](https://flagcdn.com/w40/de.png)](README.de.md) [![Italiano](https://flagcdn.com/w40/it.png)](README.it.md) [![Français](https://flagcdn.com/w40/fr.png)](README.fr.md) [![Português](https://flagcdn.com/w40/pt.png)](README.pt.md)
+
+---
+
 Extensión de Klipper para la configuración y ajuste automático de drivers TMC.
 
 Esta extensión calcula valores óptimos para la mayoría de los registros de los drivers TMC de motores paso a paso, basándose en la información de la hoja de datos del motor y el objetivo de ajuste seleccionado por el usuario.
