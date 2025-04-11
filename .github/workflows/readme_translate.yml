@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:   # ← Añade esta sección
+      contents: write  # ← Permiso para hacer commit
     steps:
       - uses: actions/checkout@v2
       - name: Setup Node.js
