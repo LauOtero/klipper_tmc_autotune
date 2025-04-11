@@ -1,5 +1,11 @@
 # Klipper TMC AutoTune (versão alfa)
 
+* * *
+
+![Español](https://flagcdn.com/w40/es.png)[![English](https://flagcdn.com/w40/gb.png)](README.en.md)[![Deutsch](https://flagcdn.com/w40/de.png)](README.de.md)[![Italiano](https://flagcdn.com/w40/it.png)](README.it.md)[![Français](https://flagcdn.com/w40/fr.png)](README.fr.md)[![Português](https://flagcdn.com/w40/pt.png)](README.pt.md)
+
+* * *
+
 Extensão Klipper para configuração e ajuste automáticos de TMC.
 
 Essa extensão calcula os valores ótimos para a maioria dos registros dos drivers TMC dos mecanismos de etapa de etapa, com base nas informações da folha de informações e no alvo de ajuste selecionado pelo usuário.
@@ -60,7 +66,7 @@ Lembre -se também de que o ajuste do homing sem sensores provavelmente mudará 
 
 ### 1. Ajuste fino de sensibilidad
 
-**Problema:**A cabeça para muito cedo ou não detecta o final da corrida.
+**Problema:** El cabezal se detiene demasiado pronto o no detecta el final de carrera.
 
 -   **Causas:**Valores de`sgt`/`sg4_thrs`Muito baixa, indutância do mecanismo variável
 -   **Solução:**
@@ -132,7 +138,7 @@ Todas as seções`[autotune_tmc]`Eles aceitam os seguintes parâmetros configur�
 | `toff`             | 0                 | 0-15                                       | Tempo fora do helicóptero. 0 = cálculo automático. Valores baixos melhoram as altas velocidades                                                                                                                                                           |
 | `sgt`              | 1                 | -64 A 63                                   | Sensibilidade ao homing sem sensores (TMC5160/2240). Valores negativos = maior sensibilidade                                                                                                                                                              |
 | `sg4_thrs`         | 10                | 0-255                                      | Limiar combinado para Coolstep e Homing (TMC2209). Relacionamento não linear com sensibilidade real                                                                                                                                                       |
-| `pwm_freq_target`  | 55kHz             | 10-60KHz                                   | Objetivo da frequência PWM. Altos valores reduzem o ruído, mas aumentam as perdas                                                                                                                                                                         |
+| `pwm_freq_target`  | 55kHz             | 10-60kHz                                   | Objetivo da frequência PWM. Altos valores reduzem o ruído, mas aumentam as perdas                                                                                                                                                                         |
 | `voltage`          | 24V               | 0-60V                                      | Tensão real de alimentação do motor. Crítico para cálculos atuais                                                                                                                                                                                         |
 | `overvoltage_vth`  | _Auto_            | 0-60V                                      | Proteção ao máximo SOOL (TMC2240/5160). É calculado como`voltage + 0.8V`Se não for especificado                                                                                                                                                           |
 
@@ -165,7 +171,7 @@ O processo AutoJuste usa as seguintes classes principais:
     -   Valores de proteção de sobretensão
     -   Corrente operacional ideal
 
-2.  **Realtimonitor**: Fornece monitoramento em tempo real da temperatura e carga do motor, com ajuste dinâmico da proteção térmica atual e automática.
+2.  **RealTimeMonitor**: Fornece monitoramento em tempo real da temperatura e carga do motor, com ajuste dinâmico da proteção térmica atual e automática.
 
 3.  **AutoTuNetMC**: Classe principal que integra as funcionalidades acima e aplica a configuração ideal aos drivers TMC.
 
@@ -214,4 +220,4 @@ Lembre -se de que os inúmeros motores de parafusos geralmente não têm um torq
 
 Comente em todas as seções`[autotune_tmc xxxx]`A partir de sua configuração e reinicialização, o Klipper desativará completamente o plug -in. Para que você possa habilitá -lo/desativá -lo como quiser.
 
-Se você deseja desinstalá -lo completamente, elimine a seção do gerente de atualização do Moonraker do seu arquivo`moonraker.conf`, exclua a pasta`~/klipper_tmc_autotune`em seu pi e reinicie Klipper e Moonraker.
+Se você deseja desinstalá -lo completamente, elimine a seção do gerente de atualização do Moonraker do seu arquivo`moonraker.conf`, exclua a pasta`~/klipper_tmc_autotune` en su Pi y reinicie Klipper y Moonraker.
