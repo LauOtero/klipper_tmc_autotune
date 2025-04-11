@@ -1,5 +1,11 @@
 # Klipper TMC Autotune (Alpha version)
 
+* * *
+
+![Español](https://flagcdn.com/w40/es.png)[![English](https://flagcdn.com/w40/gb.png)](README.en.md)[![Deutsch](https://flagcdn.com/w40/de.png)](README.de.md)[![Italiano](https://flagcdn.com/w40/it.png)](README.it.md)[![Français](https://flagcdn.com/w40/fr.png)](README.fr.md)[![Português](https://flagcdn.com/w40/pt.png)](README.pt.md)
+
+* * *
+
 Klipper extension for automatic TMC configuration and adjustment.
 
 This extension calculates optimal values ​​for most records of the TMC drivers of step -by -step engines, based on the information sheet information and the adjustment target selected by the user.
@@ -139,7 +145,7 @@ All sections`[autotune_tmc]`They accept the following configurable parameters:
 > **IMPORTANT NOTES:**
 >
 > -   Parameters without unity assume values ​​in the international metric system (V, A, Hz)
-> -   The values ​​of`sgt`y`sg4_thrs`They have non -linear effects: small changes can have great impacts
+> -   Los valores de `sgt`y`sg4_thrs`They have non -linear effects: small changes can have great impacts
 > -   `tuning_goal`It affects multiple parameters simultaneously:
 >     ```plaintext
 >     silent:   toff↑, tbl↑, pwm_freq↓, extra_hysteresis↑
