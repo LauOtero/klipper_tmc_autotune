@@ -1,5 +1,11 @@
 # Klipper TMC Autotune (Alpha -Version)
 
+* * *
+
+![Español](https://flagcdn.com/w40/es.png)[![English](https://flagcdn.com/w40/gb.png)](README.en.md)[![Deutsch](https://flagcdn.com/w40/de.png)](README.de.md)[![Italiano](https://flagcdn.com/w40/it.png)](README.it.md)[![Français](https://flagcdn.com/w40/fr.png)](README.fr.md)[![Português](https://flagcdn.com/w40/pt.png)](README.pt.md)
+
+* * *
+
 Klipper -Erweiterung für die automatische TMC -Konfiguration und -anpassung.
 
 Diese Erweiterung berechnet optimale Werte für die meisten Aufzeichnungen der TMC -Treiber von Schritt -By -Step -Motoren, basierend auf den Informationsblattinformationen und dem vom Benutzer ausgewählten Anpassungsziel.
@@ -130,7 +136,7 @@ Alle Abschnitte`[autotune_tmc]`Sie akzeptieren die folgenden konfigurierbaren Pa
 | `extra_hysteresis` | 0               | 0-8                                        | Zusätzliche Hysterese zur Reduzierung der Vibration. Werte> 3 können übermäßige Wärme erzeugen                                                                                                                                                                                |
 | `tbl`              | 2               | 0-3                                        | Die Blindzeit des Komparators:<br>- 0: 16 Zyklen<br>- 1: 24 Zyklen<br>- 2: 36 Zyklen<br>- 3: 54 Zyklen                                                                                                                                                                        |
 | `toff`             | 0               | 0-15                                       | Chopper's Off Time. 0 = automatische Berechnung. Niedrige Werte verbessern hohe Geschwindigkeiten                                                                                                                                                                             |
-| `sgt`              | 1               | -64 A 63                                   | Homing -Empfindlichkeit ohne Sensoren (TMC5160/2240). Negative Werte = größere Empfindlichkeit                                                                                                                                                                                |
+| `sgt`              | 1               | -64 a 63                                   | Homing -Empfindlichkeit ohne Sensoren (TMC5160/2240). Negative Werte = größere Empfindlichkeit                                                                                                                                                                                |
 | `sg4_thrs`         | 10              | 0-255                                      | Kombinierte Schwelle für Coolstep und Homing (TMC2209). Nichtlineare Beziehung zur echten Sensibilität                                                                                                                                                                        |
 | `pwm_freq_target`  | 55 kHz          | 10-60 kHz                                  | PWM -Frequenzziel. Hohe Werte reduzieren das Rauschen, erhöhen aber die Verluste                                                                                                                                                                                              |
 | `voltage`          | 24 V            | 0-60V                                      | Echte Motorzufuhrspannung. Kritiker für aktuelle Berechnungen                                                                                                                                                                                                                 |
